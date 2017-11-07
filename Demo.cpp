@@ -79,7 +79,8 @@ int main()
     printf("[Good numeric sequence] ");
     for_each(ic.begin(), ic.end(), printVal);
 
-    ic = ichain.GenerateIntPhrase(4,2, maxLength, retries, repeatings, seed);
+    ///No repeats, it will not recover
+    ic = ichain.GenerateIntPhrase(4,2, maxLength, 0, repeatings, seed);
     printf("\n[Bad numeric sequence] ");
     for_each(ic.begin(), ic.end(), printVal);
 
