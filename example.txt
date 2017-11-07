@@ -1,3 +1,7 @@
-a b c
-c this is a small test
-to show the potential
+the sky is blue when is not cloudy
+the sky is grey when it is cloudy
+the sky is dark when it's night
+the sea is blue and it is deep
+the sea is big and is salty
+the fire is red and it will burn
+the fire is not blue and is brigh

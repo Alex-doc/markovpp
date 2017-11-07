@@ -1,18 +1,18 @@
 // BSD 2-Clause License
-// 
+//
 // Copyright (c) 2017, Alex Piola
 // All rights reserved.
-// 
+//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
-// 
+//
 // * Redistributions of source code must retain the above copyright notice, this
 //   list of conditions and the following disclaimer.
-// 
+//
 // * Redistributions in binary form must reproduce the above copyright notice,
 //   this list of conditions and the following disclaimer in the documentation
 //   and/or other materials provided with the distribution.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 // AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -56,22 +56,25 @@ int main()
     StringChain schain;
     schain.AppendTextToWordList(alphabet);
 
-    int maxLength = 50;
-    int retries = 1;
+    int maxLength = 8;
+    int retries = 10;
     int repeatings = 10;
     int seed = 12398;
 
-    string v = schain.GenerateText("a", "b", separator, maxLength, retries, repeatings, seed);
+    string v = schain.GenerateText("the", "sky", separator, maxLength, retries, repeatings, seed);
     printf("%s\n",v.c_str());
 
-    v = schain.GenerateText("f", "g", separator, maxLength, retries, repeatings, seed);
+    v = schain.GenerateText("the", "fire", separator, maxLength, retries, repeatings, seed);
+    printf("%s\n",v.c_str());
+
+    v = schain.GenerateText("the", "sea", separator, maxLength, retries*100, repeatings*100, seed*10);
     printf("%s\n",v.c_str());
 
     IntChain ichain;
     ichain.AppendIntToWordList(numbers);
     ichain.AppendIntToWordList(11);
 
-    auto printVal = []( const int& p ) { printf("%i\n",p); };
+    auto printVal = []( const int& p ) { printf("%i ",p); };
     vector<int> ic = ichain.GenerateIntPhrase(2,3, maxLength, retries, repeatings, seed);
     for_each(ic.begin(), ic.end(), printVal);
 
