@@ -61,21 +61,26 @@ int main()
     int repeatings = 10;
     int seed = 12398;
 
-    string v = schain.GenerateText("the", "sky", separator, maxLength, retries, repeatings, seed);
-    printf("%s\n",v.c_str());
+    string v = schain.GenerateText("the", "", separator, maxLength, retries, repeatings, seed);
+    printf("[Single word example] %s\n",v.c_str());
 
     v = schain.GenerateText("the", "fire", separator, maxLength, retries, repeatings, seed);
-    printf("%s\n",v.c_str());
+    printf("[Two words example] %s\n",v.c_str());
 
-    v = schain.GenerateText("the", "sea", separator, maxLength, retries*100, repeatings*100, seed*10);
-    printf("%s\n",v.c_str());
+    v = schain.GenerateText("", "", separator, maxLength, retries*100, repeatings*100, seed*10);
+    printf("[No word example/completely random] %s\n",v.c_str());
 
     IntChain ichain;
     ichain.AppendIntToWordList(numbers);
     ichain.AppendIntToWordList(11);
 
     auto printVal = []( const int& p ) { printf("%i ",p); };
-    vector<int> ic = ichain.GenerateIntPhrase(2,3, maxLength, retries, repeatings, seed);
+    vector<int> ic = ichain.GenerateIntPhrase(1,2, maxLength, retries, repeatings, seed);
+    printf("[Good numeric sequence] ");
+    for_each(ic.begin(), ic.end(), printVal);
+
+    ic = ichain.GenerateIntPhrase(4,2, maxLength, retries, repeatings, seed);
+    printf("\n[Bad numeric sequence] ");
     for_each(ic.begin(), ic.end(), printVal);
 
     return 0;
