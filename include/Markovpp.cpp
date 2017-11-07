@@ -1,18 +1,18 @@
 // BSD 2-Clause License
-// 
+//
 // Copyright (c) 2017, Alex Piola
 // All rights reserved.
-// 
+//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
-// 
+//
 // * Redistributions of source code must retain the above copyright notice, this
 //   list of conditions and the following disclaimer.
-// 
+//
 // * Redistributions in binary form must reproduce the above copyright notice,
 //   this list of conditions and the following disclaimer in the documentation
 //   and/or other materials provided with the distribution.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 // AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 // IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -23,7 +23,7 @@
 // CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
+#include <algorithm>
 #include "Markovpp.h"
 
 ///Get a list of the possible words that can be concatenated
@@ -40,11 +40,26 @@ std::vector< T > Chain< T >::GetPossibleWords(const T& word0, const T& word1) co
         {
             //result.push_back(word_list_[index+1]);
             if(word_list_[index+1] == word1 && index < wordCount - 2)
-            {
                 result.push_back(word_list_[index+2]);
-            }
         }
     }
+    return result;
+}
+
+template <typename T>
+std::vector< T > Chain< T >::GetNearWords(const T& word0) const
+{
+    std::vector<T> result;
+    int wordCount = word_list_.size();
+    for( typename std::vector<T>::const_iterator i = word_list_.begin(); i != word_list_.end(); ++i)
+    {
+        T word = *i;
+        int index = i - word_list_.begin();
+        if( word == word0 && index < (wordCount - 1) )
+            result.push_back(word_list_[index+1]);
+    }
+    ///this must not be orderer, we allow multiple entries of the same word, so it helps with statistics
+    std::random_shuffle( result.begin(), result.end() );
     return result;
 }
 
@@ -177,6 +192,12 @@ std::string StringChain::GenerateText( const std::string& word0, const std::stri
         word0_ = word0;
     if( word1 != "" )
         word1_ = word1;
+    else
+    {
+        std::vector<std::string> words = GetNearWords(word0_);
+        rnd->SetRange(0,words.size()-1);
+        word1_ = words[rnd->GetRand()];
+    }
 
     std::vector<std::string> result = GeneratePhrase( word0_, word1_, maxLen, retries, repeatings, seed );
     std::string resultString = "";
@@ -214,7 +235,13 @@ void IntChain::AppendIntToWordList(const int& data)
 std::vector<int> IntChain::GenerateIntPhraseSingle(const int& word0, const unsigned& maxLen, const int& retries, const int& repeatings, const int& seed)
 {
     std::vector<int> result;
-    result = GenerateIntPhrase(word0, word0+1, maxLen, retries, repeatings, seed );
+
+    std::vector<int> words = GetNearWords(word0);
+    std::unique_ptr<RandInt> rnd( new RandInt( 0, words.size( ) - 1 ) );
+    rnd->Seed(seed);
+    int word1 = words[rnd->GetRand()];
+
+    result = GenerateIntPhrase(word0, word1, maxLen, retries, repeatings, seed );
     return result;
 }
 
