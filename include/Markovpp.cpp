@@ -195,8 +195,11 @@ std::string StringChain::GenerateText( const std::string& word0, const std::stri
     else
     {
         std::vector<std::string> words = GetNearWords(word0_);
-        rnd->SetRange(0,words.size()-1);
-        word1_ = words[rnd->GetRand()];
+        if(words.size() > 0)
+        {
+            rnd->SetRange(0,words.size()-1);
+            word1_ = words[rnd->GetRand()];
+        }
     }
 
     std::vector<std::string> result = GeneratePhrase( word0_, word1_, maxLen, retries, repeatings, seed );
@@ -239,7 +242,10 @@ std::vector<int> IntChain::GenerateIntPhraseSingle(const int& word0, const unsig
     std::vector<int> words = GetNearWords(word0);
     std::unique_ptr<RandInt> rnd( new RandInt( 0, words.size( ) - 1 ) );
     rnd->Seed(seed);
-    int word1 = words[rnd->GetRand()];
+    int word1 = word0+1;
+
+    if(words.size() > 0)
+        word1 = words[rnd->GetRand()];
 
     result = GenerateIntPhrase(word0, word1, maxLen, retries, repeatings, seed );
     return result;
