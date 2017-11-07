@@ -46,7 +46,7 @@ public:
     }
 
     void Seed( int val ) {
-        engine_.seed(val);
+        seed_ = val;
     }
 
     int operator()() {
