@@ -127,9 +127,20 @@ std::vector<T> Chain<T>::GeneratePhrase( const T& word0, const T& word1, const u
             {
                 if( result.size( ) < mlen )
                 {
+                    rnd->SetRange( 0, word_list_.size() - 1 );
                     int r0 = rnd->GetRand( );
                     int r1 = rnd->GetRand( );
-                    state = { word_list_[r0], word_list_[r1] };
+                    ///We try to get the near word,
+                    ///if unsuccesfull, use a random one
+                    T state1 = word_list_[r1];
+                    std::vector<T> wl = GetNearWords(word_list_[r0]);
+                    if(wl.size() > 0)
+                    {
+                        rnd->SetRange( 0, wl.size() - 1 );
+                        state1 = wl[rnd->GetRand()];
+                    }
+
+                    state = { word_list_[r0], state1 };
                 }
                 triesLeft -= 1;
             }
