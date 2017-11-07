@@ -150,7 +150,7 @@ std::vector<std::string> StringChain::SplitString(const std::string& text, const
             subword = "";
         }
     }
-    ///we push back the last word as there's no space to assign.
+    ///we push back the last word as there's no splitchar to assign.
     result.push_back(subword);
     return result;
 }
@@ -163,7 +163,7 @@ void StringChain::AppendTextToWordList(const std::string& data, const char split
     AppendToWordList(SplitString(word_string_, splitchar));
 }
 
-std::string StringChain::GenerateText( const std::string & word0, const std::string & word1, const std::string& separator, const unsigned& maxLen, const int& retries, const int& repeatings, const int& seed )
+std::string StringChain::GenerateText( const std::string& word0, const std::string& word1, const std::string& separator, const unsigned& maxLen, const int& retries, const int& repeatings, const int& seed )
 {
     std::unique_ptr<RandInt> rnd( new RandInt( 0, word_list_.size( ) - 1 ) );
     rnd->Seed( seed );
