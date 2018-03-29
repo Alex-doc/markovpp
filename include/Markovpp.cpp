@@ -24,6 +24,7 @@
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <algorithm>
+#include <sstream>
 #include "Markovpp.h"
 
 ///Get a list of the possible words that can be concatenated
@@ -214,14 +215,16 @@ std::string StringChain::GenerateText( const std::string& word0, const std::stri
     }
 
     std::vector<std::string> result = GeneratePhrase( word0_, word1_, maxLen, retries, repeatings, seed );
-    std::string resultString = "";
+
+    std::stringstream resultString("");
+
     for( std::vector<std::string>::iterator i = result.begin(); i != result.end(); ++i)
     {
-        resultString.append(*i);
+        resultString << *i;
         if(i != (result.end() - 1))
-            resultString.append(separator);
+            resultString << separator;
     }
-    return resultString;
+    return resultString.str();
 }
 
 ///
