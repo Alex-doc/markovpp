@@ -26,6 +26,7 @@
 
 #include <fstream>
 #include <algorithm>
+#include <string>
 #include "include/Markovpp.h"
 
 using namespace std;
