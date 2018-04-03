@@ -25,7 +25,7 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <algorithm>
 #include <sstream>
-#include "Markovpp.h"
+#include "../include/Markovpp.h"
 
 ///Get a list of the possible words that can be concatenated
 template <typename T>
